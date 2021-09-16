@@ -1,4 +1,4 @@
-module Escpos.Attributes exposing (..)
+module Escpos.Attributes exposing (align, bold, characterSize, underline)
 
 import Escpos.Internal.Model as Internal exposing (Alignment, Attribute, CharacterSizing)
 

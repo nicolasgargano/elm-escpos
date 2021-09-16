@@ -1,8 +1,7 @@
-module Escpos exposing (..)
+module Escpos exposing (batch, cut, encodeToBytes, horizontalTab, initialize, newline, raw, verticalTab, write, writeLine)
 
 import Array exposing (Array)
 import Bytes exposing (Bytes)
-import Escpos.Internal.LowLevel as LowLevel
 import Escpos.Internal.Model as Internal exposing (Attribute, Command)
 
 
