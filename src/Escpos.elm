@@ -64,20 +64,6 @@ cut =
 -- HELPERS
 
 
-toBytes : Command -> Bytes
-toBytes command =
+encodeToBytes : Command -> Bytes
+encodeToBytes command =
     Internal.toBytes (Internal.applyTextAttribute (Array.repeat 8 0) []) [] command
-
-
-encode : Command -> Bytes
-encode command =
-    toBytes command
-
-
-encodeWithInitAndCut : Command -> Bytes
-encodeWithInitAndCut command =
-    LowLevel.sequence
-        [ LowLevel.initialize
-        , toBytes command
-        , LowLevel.cut
-        ]
