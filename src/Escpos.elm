@@ -1,4 +1,4 @@
-module Escpos exposing (batch, cut, encodeToBytes, horizontalTab, initialize, newline, raw, verticalTab, write, writeLine)
+module Escpos exposing (batch, cut, encodeToBytes, initialize, newline, raw, write, writeLine)
 
 import Array exposing (Array)
 import Bytes exposing (Bytes)
@@ -37,16 +37,6 @@ newline =
 writeLine : String -> Command
 writeLine =
     Internal.WriteLine
-
-
-horizontalTab : Command
-horizontalTab =
-    Internal.HorizontalTab
-
-
-verticalTab : Command
-verticalTab =
-    Internal.VerticalTab
 
 
 initialize : Command
