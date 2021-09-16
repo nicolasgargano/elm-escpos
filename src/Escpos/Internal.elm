@@ -1,4 +1,4 @@
-module Escpos.Internal.Model exposing (..)
+module Escpos.Internal exposing (..)
 
 import Array exposing (Array)
 import Bytes exposing (Bytes)
