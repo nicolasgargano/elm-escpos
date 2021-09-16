@@ -8,6 +8,7 @@ module Escpos exposing
     , initialize
     , cut
     , encodeToBytes
+    , encodeToInts
     , encodeToJson
     , raw
     )
@@ -34,6 +35,7 @@ module Escpos exposing
 # Encoding
 
 @docs encodeToBytes
+@docs encodeToInts
 @docs encodeToJson
 
 
@@ -166,17 +168,26 @@ encodeToBytes command =
     Internal.toBytes (Internal.applyTextAttribute (Array.repeat 8 0) []) [] command
 
 
-{-| Return the command as json, it will be an array of numbers.
+{-| Return the command a list of ints, one for each byte.
+
+This is useful to send through a port.
+
+-}
+encodeToInts : Command -> List Int
+encodeToInts command =
+    encodeToBytes command
+        |> bytesToInts
+        |> Maybe.withDefault []
+
+
+{-| Return the command as json. It will be an array of numbers, one for each byte.
 
 This is useful to send through a port.
 
 -}
 encodeToJson : Command -> Encode.Value
 encodeToJson command =
-    command
-        |> encodeToBytes
-        |> bytesToInts
-        |> Maybe.withDefault []
+    encodeToInts command
         |> Encode.list Encode.int
 
 
