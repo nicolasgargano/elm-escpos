@@ -20,6 +20,11 @@ raw =
     Internal.Raw
 
 
+none : Command
+none =
+    raw []
+
+
 write : String -> Command
 write =
     Internal.Write
