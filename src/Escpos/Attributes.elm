@@ -65,13 +65,13 @@ smallSize =
     Internal.TextAttribute (Internal.CharacterSize Internal.Small)
 
 
-smallDouleWidth : Attribute
-smallDouleWidth =
+smallDoubleWidth : Attribute
+smallDoubleWidth =
     Internal.TextAttribute (Internal.CharacterSize Internal.SmallDoubleWidth)
 
 
-smallDouleHeight : Attribute
-smallDouleHeight =
+smallDoubleHeight : Attribute
+smallDoubleHeight =
     Internal.TextAttribute (Internal.CharacterSize Internal.SmallDoubleHeight)
 
 
