@@ -1,5 +1,6 @@
 module Escpos exposing
-    ( batch
+    ( Command
+    , batch
     , writeLine
     , none
     , write
@@ -16,6 +17,7 @@ module Escpos exposing
 
 # Commands
 
+@docs Command
 @docs batch
 @docs writeLine
 @docs none
@@ -52,7 +54,13 @@ import Json.Encode as Encode
 -- COMMANDS
 
 
-{-| The basic building block, this let's you group multiple commands and add attributes to them.
+{-| The basic building block.
+-}
+type alias Command =
+    Internal.Command
+
+
+{-| This let's you group multiple commands and add attributes to them.
 
 You can think of it as a `div` in html.
 
