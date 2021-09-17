@@ -74,7 +74,7 @@ alignCenter =
 -}
 alignRight : Attribute
 alignRight =
-    Internal.AlignmentAttribute Internal.Left
+    Internal.AlignmentAttribute Internal.Right
 
 
 
