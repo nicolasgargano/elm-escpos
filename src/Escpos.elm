@@ -46,6 +46,7 @@ module Escpos exposing
 -}
 
 import Array exposing (Array)
+import Base64.Encode
 import Bytes exposing (Bytes)
 import Bytes.Decode
 import Escpos.Internal as Internal exposing (Attribute, Command)
@@ -178,6 +179,15 @@ encodeToInts command =
     encodeToBytes command
         |> bytesToInts
         |> Maybe.withDefault []
+
+
+{-| Return the command as a base64 encoded string.
+-}
+encodeToBase64 : Command -> String
+encodeToBase64 command =
+    encodeToBytes command
+        |> Base64.Encode.bytes
+        |> Base64.Encode.encode
 
 
 {-| Return the command as json. It will be an array of numbers, one for each byte.

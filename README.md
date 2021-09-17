@@ -36,7 +36,7 @@ Here is what that one looks like after printing.
 This is printer specific, but you will generally need to encode the command somehow 
 and then send it to the printer through http or via ports if you need js.
 
-The library includes encode functions for `Bytes`, `List Int` and `Json.Encode.Value`.
+The library includes encode functions for `Bytes`, `List Int`, `Json.Encode.Value` and base64 encoded `String`.
 
 The preview app has an example for printing via ports and USB connection. 
 Check out [TicketPreview.elm](https://github.com/nicolasgargano/elm-escpos/blob/main/tickets-preview/src/TicketPreview.elm) 
