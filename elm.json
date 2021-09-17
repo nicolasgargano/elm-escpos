@@ -1,7 +1,7 @@
 {
     "type": "package",
     "name": "nicolasgargano/elm-escpos",
-    "summary": "Write ESC/POS commands like html.",
+    "summary": "Write ESC/POS commands like elm/html.",
     "license": "BSD-3-Clause",
     "version": "1.0.0",
     "exposed-modules": [
