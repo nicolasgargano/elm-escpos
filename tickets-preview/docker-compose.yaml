@@ -1,0 +1,19 @@
+version: "3.6"
+services:
+    escpos2html:
+        image: ferimer/escpos-tools
+        expose:
+            - "8000"
+        ports:
+            - "8000:8000"
+        restart: always
+        command: "php -S 0.0.0.0:8000 esc2html.php"
+
+    cors_proxy:
+        image: shakyshane/nginx-cors-plus
+        ports:
+            - 8001:80
+        environment:
+            - TARGET=http://escpos2html:8000
+        depends_on:
+            - escpos2html
