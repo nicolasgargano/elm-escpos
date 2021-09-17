@@ -1,4 +1,4 @@
-![](assets/title.png)
+![](https://raw.githubusercontent.com/nicolasgargano/elm-escpos/main/assets/title.png)
 
 ## Quickstart
 
@@ -23,13 +23,14 @@ ticketContents =
 ## Previewing tickets
 I've included an app to be able to preview the tickets as you code them.
 
-Check out the docs at [tickets-preview](tickets-preview) for instructions on how to run and use it.
+Check out the docs at [tickets-preview](https://github.com/nicolasgargano/elm-escpos/tree/main/tickets-preview) 
+for instructions on how to run and use it.
 
-![](assets/preview.png)
+![](https://raw.githubusercontent.com/nicolasgargano/elm-escpos/main/assets/preview.png)
 
 Here is what that one looks like after printing.
 
-![](assets/capabilities-ticket-print.png)
+![](https://raw.githubusercontent.com/nicolasgargano/elm-escpos/main/assets/capabilities-ticket-print.png)
 
 ## Printing
 This is printer specific, but you will generally need to encode the command somehow 
@@ -38,7 +39,8 @@ and then send it to the printer through http or via ports if you need js.
 The library includes encode functions for `Bytes`, `List Int` and `Json.Encode.Value`.
 
 The preview app has an example for printing via ports and USB connection. 
-Check out [TicketPreview.elm](tickets-preview/src/TicketPreview.elm) if you need the details, the gist of it is:
+Check out [TicketPreview.elm](https://github.com/nicolasgargano/elm-escpos/blob/main/tickets-preview/src/TicketPreview.elm) 
+if you need the details, the gist of it is:
 
 1. Build your ticket contents
 
