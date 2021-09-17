@@ -2,6 +2,7 @@ module Tickets exposing (..)
 
 import Escpos exposing (batch, newline, write, writeLine)
 import Escpos.Attributes exposing (..)
+import TicketExample
 
 
 type alias TicketDemo =
@@ -15,6 +16,7 @@ type alias TicketDemo =
 allTickets =
     [ helloWorld
     , attributes
+    , readmeExample
     , capabilities
     ]
 
@@ -35,6 +37,12 @@ attributes =
         batch [ bold ] [ writeLine "I am bold" ]
 
 
+readmeExample : TicketDemo
+readmeExample =
+    TicketDemo "README example" <|
+        TicketExample.ticketContents
+
+
 capabilities : TicketDemo
 capabilities =
     TicketDemo "Capabilities" <|
@@ -50,6 +58,8 @@ capabilities =
                         , newline
                         ]
                     , batch [] commands
+                    , newline
+                    , newline
                     ]
         in
         batch []
