@@ -1,6 +1,9 @@
 ![](assets/title.png)
 
 ## Quickstart
+
+This is what the ticket above looks like in code:
+
 ```elm
 import Escpos exposing (batch, newline, writeLine)
 import Escpos.Attributes exposing (alignCenter, normalDouble)
