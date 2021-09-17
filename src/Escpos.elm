@@ -171,7 +171,7 @@ encodeToBytes command =
     Internal.toBytes (Internal.applyTextAttribute (Array.repeat 8 0) []) [] command
 
 
-{-| Return the command a list of ints, one for each byte.
+{-| Return the command as a list of ints, one for each byte.
 
 This is useful to send through a port.
 
