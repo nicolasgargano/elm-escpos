@@ -1,4 +1,11 @@
-module Escpos.Internal exposing (..)
+module Escpos.Internal exposing
+    ( Alignment(..)
+    , Attribute(..)
+    , CharacterSizing(..)
+    , Command(..)
+    , TextAttribute(..)
+    , toBytes
+    )
 
 import Array exposing (Array)
 import Bytes exposing (Bytes)
@@ -52,8 +59,13 @@ type Alignment
 -- HELPERS
 
 
-toBytes : Array Int -> List Attribute -> Command -> Bytes
-toBytes outsideTextStyleBits outsideAttributes command =
+toBytes : Command -> Bytes
+toBytes command =
+    toBytesHelper (applyTextAttribute (Array.repeat 8 0) []) [] command
+
+
+toBytesHelper : Array Int -> List Attribute -> Command -> Bytes
+toBytesHelper outsideTextStyleBits outsideAttributes command =
     case command of
         Batch attrs commands ->
             let
@@ -81,7 +93,7 @@ toBytes outsideTextStyleBits outsideAttributes command =
                 [ LowLevel.style (bitListToBytes insideTextStyle)
                 , LowLevel.sequence insideOtherAttributesBytes
                 , commands
-                    |> List.map (toBytes insideTextStyle (outsideAttributes_ ++ attrs))
+                    |> List.map (toBytesHelper insideTextStyle (outsideAttributes_ ++ attrs))
                     |> LowLevel.sequence
                 , LowLevel.style (bitListToBytes outsideTextStyleBits)
                 , LowLevel.sequence outsideOtherAttributesBytes
