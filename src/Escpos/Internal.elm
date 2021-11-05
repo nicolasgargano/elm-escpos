@@ -37,6 +37,7 @@ import RadixInt
 type Command
     = Batch (List Attribute) (List Command)
     | Raw (List Int)
+    | None
     | Write String
     | Newline
     | WriteLine String
@@ -134,6 +135,9 @@ toBytesHelper outsideTextStyleBits outsideAttributes command =
                 |> List.map Bytes.Encode.unsignedInt8
                 |> Bytes.Encode.sequence
                 |> Bytes.Encode.encode
+
+        None ->
+            LowLevel.sequence []
 
         Write string ->
             LowLevel.text string
