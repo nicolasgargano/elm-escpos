@@ -116,7 +116,7 @@ raw =
 -}
 none : Command
 none =
-    raw []
+    Internal.None
 
 
 {-| Write the given text.
