@@ -116,7 +116,7 @@ raw =
 -}
 none : Command
 none =
-    raw []
+    Internal.None
 
 
 {-| Write the given text.
@@ -168,7 +168,7 @@ This is probably what you need to send to the printer.
 -}
 encodeToBytes : Command -> Bytes
 encodeToBytes command =
-    Internal.toBytes (Internal.applyTextAttribute (Array.repeat 8 0) []) [] command
+    Internal.toBytes command
 
 
 {-| Return the command as a list of ints, one for each byte.

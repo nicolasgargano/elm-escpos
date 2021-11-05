@@ -1,4 +1,29 @@
-module Escpos.Internal exposing (..)
+module Escpos.Internal exposing
+    ( Command(..)
+    , Attribute(..)
+    , TextAttribute(..)
+    , CharacterSizing(..)
+    , Alignment(..)
+    , toBytes
+    )
+
+{-| _Note: you only need this module if you are writing a custom interpreter for Command._
+
+
+# Custom Types
+
+@docs Command
+@docs Attribute
+@docs TextAttribute
+@docs CharacterSizing
+@docs Alignment
+
+
+# Convert
+
+@docs toBytes
+
+-}
 
 import Array exposing (Array)
 import Bytes exposing (Bytes)
@@ -7,9 +32,12 @@ import Escpos.Internal.LowLevel as LowLevel
 import RadixInt
 
 
+{-| The basic building block.
+-}
 type Command
     = Batch (List Attribute) (List Command)
     | Raw (List Int)
+    | None
     | Write String
     | Newline
     | WriteLine String
@@ -19,18 +47,24 @@ type Command
     | Cut
 
 
+{-| Attributes.
+-}
 type Attribute
     = TextAttribute TextAttribute
     | AlignmentAttribute Alignment
     | WhiteOverBlack
 
 
+{-| Attributes that can be applied to text.
+-}
 type TextAttribute
     = Underline
     | Bold
     | CharacterSize CharacterSizing
 
 
+{-| Size of the characters.
+-}
 type CharacterSizing
     = Small
     | SmallDoubleWidth
@@ -42,6 +76,8 @@ type CharacterSizing
     | NormalDouble
 
 
+{-| How text should align. Note that you cannot have multiple alignments within the same line.
+-}
 type Alignment
     = Left
     | Center
@@ -52,8 +88,15 @@ type Alignment
 -- HELPERS
 
 
-toBytes : Array Int -> List Attribute -> Command -> Bytes
-toBytes outsideTextStyleBits outsideAttributes command =
+{-| Convert a command to a series of bytes.
+-}
+toBytes : Command -> Bytes
+toBytes command =
+    toBytesHelper (applyTextAttribute (Array.repeat 8 0) []) [] command
+
+
+toBytesHelper : Array Int -> List Attribute -> Command -> Bytes
+toBytesHelper outsideTextStyleBits outsideAttributes command =
     case command of
         Batch attrs commands ->
             let
@@ -81,7 +124,7 @@ toBytes outsideTextStyleBits outsideAttributes command =
                 [ LowLevel.style (bitListToBytes insideTextStyle)
                 , LowLevel.sequence insideOtherAttributesBytes
                 , commands
-                    |> List.map (toBytes insideTextStyle (outsideAttributes_ ++ attrs))
+                    |> List.map (toBytesHelper insideTextStyle (outsideAttributes_ ++ attrs))
                     |> LowLevel.sequence
                 , LowLevel.style (bitListToBytes outsideTextStyleBits)
                 , LowLevel.sequence outsideOtherAttributesBytes
@@ -92,6 +135,9 @@ toBytes outsideTextStyleBits outsideAttributes command =
                 |> List.map Bytes.Encode.unsignedInt8
                 |> Bytes.Encode.sequence
                 |> Bytes.Encode.encode
+
+        None ->
+            LowLevel.sequence []
 
         Write string ->
             LowLevel.text string
@@ -214,40 +260,3 @@ applyTextAttribute arr attributes =
 
         attrs ->
             List.foldl modFn arr attrs
-
-
-characterSizingToBytes : CharacterSizing -> Bytes
-characterSizingToBytes characterSizing =
-    let
-        arr =
-            case characterSizing of
-                Small ->
-                    [ 1, 0, 0, 0, 0, 0, 0, 0 ]
-
-                SmallDoubleWidth ->
-                    [ 1, 0, 0, 0, 0, 1, 0, 0 ]
-
-                SmallDoubleHeight ->
-                    [ 1, 0, 0, 0, 1, 0, 0, 0 ]
-
-                SmallDouble ->
-                    [ 1, 0, 0, 0, 1, 1, 0, 0 ]
-
-                Normal ->
-                    [ 0, 0, 0, 0, 0, 0, 0, 0 ]
-
-                NormalDoubleWidth ->
-                    [ 0, 0, 0, 0, 0, 1, 0, 0 ]
-
-                NormalDoubleHeight ->
-                    [ 1, 0, 0, 0, 1, 0, 0, 0 ]
-
-                NormalDouble ->
-                    [ 0, 0, 0, 0, 1, 1, 0, 0 ]
-    in
-    arr
-        |> RadixInt.fromList (RadixInt.Base 2)
-        |> Maybe.map RadixInt.toInt
-        |> Maybe.withDefault 0
-        |> Bytes.Encode.unsignedInt8
-        |> Bytes.Encode.encode

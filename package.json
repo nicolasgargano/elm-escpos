@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "repository": "https://github.com/nicolasgargano/elm-escpos",
-  "scripts": {},
+  "scripts": {
+    "preview-docs": "elm-doc-preview"
+  },
   "author": "Nicolás Gargano",
   "license": "BSD-3-Clause",
   "devDependencies": {

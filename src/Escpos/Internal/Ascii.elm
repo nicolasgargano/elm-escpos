@@ -98,7 +98,7 @@ type Ascii
     | RightBracket
     | Power
     | Underscore
-    | Tilde
+    | Backtick
     | Letter_a
     | Letter_b
     | Letter_c
@@ -128,7 +128,7 @@ type Ascii
     | LeftKey
     | Pipe
     | RightKey
-    | Firulete
+    | Tilde
     | Delete
 
 
@@ -230,7 +230,7 @@ allAscii =
     , RightBracket
     , Power
     , Underscore
-    , Tilde
+    , Backtick
     , Letter_a
     , Letter_b
     , Letter_c
@@ -260,7 +260,7 @@ allAscii =
     , LeftKey
     , Pipe
     , RightKey
-    , Firulete
+    , Tilde
     , Delete
     ]
 
@@ -556,7 +556,7 @@ toInt ascii =
         Underscore ->
             95
 
-        Tilde ->
+        Backtick ->
             96
 
         Letter_a ->
@@ -646,7 +646,7 @@ toInt ascii =
         RightKey ->
             125
 
-        Firulete ->
+        Tilde ->
             126
 
         Delete ->
