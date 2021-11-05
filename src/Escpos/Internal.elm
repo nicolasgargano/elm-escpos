@@ -1,11 +1,29 @@
 module Escpos.Internal exposing
-    ( Alignment(..)
+    ( Command(..)
     , Attribute(..)
-    , CharacterSizing(..)
-    , Command(..)
     , TextAttribute(..)
+    , CharacterSizing(..)
+    , Alignment(..)
     , toBytes
     )
+
+{-| _Note: you only need this module if you are writing a custom interpreter for Command._
+
+
+# Custom Types
+
+@docs Command
+@docs Attribute
+@docs TextAttribute
+@docs CharacterSizing
+@docs Alignment
+
+
+# Convert
+
+@docs toBytes
+
+-}
 
 import Array exposing (Array)
 import Bytes exposing (Bytes)
@@ -14,6 +32,8 @@ import Escpos.Internal.LowLevel as LowLevel
 import RadixInt
 
 
+{-| The basic building block.
+-}
 type Command
     = Batch (List Attribute) (List Command)
     | Raw (List Int)
@@ -26,18 +46,24 @@ type Command
     | Cut
 
 
+{-| Attributes.
+-}
 type Attribute
     = TextAttribute TextAttribute
     | AlignmentAttribute Alignment
     | WhiteOverBlack
 
 
+{-| Attributes that can be applied to text.
+-}
 type TextAttribute
     = Underline
     | Bold
     | CharacterSize CharacterSizing
 
 
+{-| Size of the characters.
+-}
 type CharacterSizing
     = Small
     | SmallDoubleWidth
@@ -49,6 +75,8 @@ type CharacterSizing
     | NormalDouble
 
 
+{-| How text should align. Note that you cannot have multiple alignments within the same line.
+-}
 type Alignment
     = Left
     | Center
@@ -59,6 +87,8 @@ type Alignment
 -- HELPERS
 
 
+{-| Convert a command to a series of bytes.
+-}
 toBytes : Command -> Bytes
 toBytes command =
     toBytesHelper (applyTextAttribute (Array.repeat 8 0) []) [] command
